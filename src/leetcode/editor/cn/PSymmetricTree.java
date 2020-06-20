@@ -32,6 +32,10 @@ package leetcode.editor.cn;
 // Related Topics 树 深度优先搜索 广度优先搜索
 
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class PSymmetricTree {
     public static void main(String[] args) {
 
@@ -52,18 +56,62 @@ public class PSymmetricTree {
             return check(root, root);
         }
 
+        /**
+         * 迭代实现
+         *
+         * @param p
+         * @param q
+         * @return
+         */
         public boolean check(TreeNode p, TreeNode q) {
-            if (p == null && q == null) {
-                return true;
-            }
-            if (p == null || q == null) {
-                return false;
-            }
+            Queue<TreeNode> treeNodeQueue = new LinkedList<>();
+            treeNodeQueue.offer(p);
+            treeNodeQueue.offer(q);
 
-            if (p.val != q.val) return false;
+            while (!treeNodeQueue.isEmpty()){
+                p = treeNodeQueue.poll();
+                q = treeNodeQueue.poll();
 
-            return check(p.left, q.right) && check(p.right, q.left);
+                if(p == null && q == null){
+                    continue;
+                }
+
+                if(p == null || q == null){
+                    return false;
+                }
+
+                if(p.val != q.val){
+                    return false;
+                }
+
+                treeNodeQueue.offer(p.left);
+                treeNodeQueue.offer(q.right);
+
+                treeNodeQueue.offer(p.right);
+                treeNodeQueue.offer(q.left);
+            }
+            return true;
         }
+
+        /**
+         * 递归实现
+         *
+         * @param p
+         * @param q
+         * @return
+         */
+//        public boolean check(TreeNode p, TreeNode q) {
+//            if (p == null && q == null) {
+//                return true;
+//            }
+//            if (p == null || q == null) {
+//                return false;
+//            }
+//
+//            if (p.val != q.val) return false;
+//
+//            return check(p.left, q.right) && check(p.right, q.left);
+//        }
     }
 
     //leetcode submit region end(Prohibit modification and deletion)
