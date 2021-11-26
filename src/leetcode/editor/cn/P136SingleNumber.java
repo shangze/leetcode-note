@@ -19,9 +19,39 @@ package leetcode.editor.cn;
 // Related Topics 位运算 哈希表
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 public class P136SingleNumber{
     public static void main(String[] args) {
-        
+        List<String> setList = new ArrayList<>();
+        setList.add("1");
+        setList.add("2");
+        setList.add("3");
+        setList.add("4");
+        setList.add("5");
+        int spNum = 3;
+        StringBuilder cfAmbIdSql = new StringBuilder();
+        for (int i = 0; i <= setList.size() / spNum; i++) {
+
+            StringBuilder idStr = new StringBuilder();
+            if(i == setList.size() / spNum){
+                int lastSize = setList.size() -  i * spNum;
+                for (int j = 0; j < lastSize; j++) {
+                    idStr.append(",'").append(setList.get((i * spNum) + j)).append("'");
+                }
+            }else{
+                for (int j = 0; j < spNum; j++) {
+                    idStr.append(",'").append(setList.get((i * spNum) + j)).append("'");
+                }
+            }
+
+            idStr = new StringBuilder(idStr.substring(1));
+            cfAmbIdSql.append(" temp.CFAmbId in (").append(idStr).append(") or");
+        }
+        cfAmbIdSql = new StringBuilder(cfAmbIdSql.substring(0,cfAmbIdSql.lastIndexOf("or")));
+        System.out.println(cfAmbIdSql);
     }
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
